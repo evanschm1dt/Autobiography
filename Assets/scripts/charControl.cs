@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class charControl : MonoBehaviour {
 
@@ -9,8 +10,10 @@ public class charControl : MonoBehaviour {
 
 	float jumpTimer;
 	public float xPos;
+	public float yPos;
 	public Transform playerPos;
 	public Transform swarmPos;
+
 	public Text deathMessage;
 	// Use this for initialization
 	void Start () {
@@ -23,19 +26,37 @@ public class charControl : MonoBehaviour {
 		float inputY = Input.GetAxis ("Vertical");
 
 
-		cController.SimpleMove (transform.forward * inputY * 8f + transform.right * inputX * 8f);
+		//cController.SimpleMove (transform.forward * inputY * 15f + transform.right * inputX * 15f);
+		cController.SimpleMove (new Vector3 (0, 0, 1) * inputY * 15f + new Vector3 (1, 0, 0) * inputX * 15f);
 
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			jumpTimer = Time.time + 1.2f;
-		}
-		if (Time.time < jumpTimer) {
-			cController.Move (Vector3.up * 0.1f);
-		}
+
 		xPos = transform.position.x;
+		yPos = transform.position.y;
 
-		if ((playerPos.position - swarmPos.position).magnitude < 8f) {
-			deathMessage.text = "You've been stung";
+		if ((playerPos.position - swarmPos.position).magnitude < 4f) {
+			SceneManager.LoadScene ("end");
+
 		}
+
+		if (Input.GetKey (KeyCode.W)) {
+			
+			transform.eulerAngles = new Vector3 (0, 180, 0);
+		}
+		if (Input.GetKey (KeyCode.S)) {
+
+			transform.eulerAngles = new Vector3 (0, 0, 0);
+		}
+		if (Input.GetKey (KeyCode.D)) {
+
+			transform.eulerAngles = new Vector3 (0, -90, 0);
+		}
+		if (Input.GetKey (KeyCode.A)) {
+
+			transform.eulerAngles = new Vector3 (0, 90, 0);
+		}
+
+		Camera.main.transform.position = transform.position + new Vector3 (0, 4, -6);
+
 	}
 }

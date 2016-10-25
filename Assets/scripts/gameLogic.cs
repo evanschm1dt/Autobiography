@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class gameLogic : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class gameLogic : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKey (KeyCode.Space)) {
+			SceneManager.LoadScene ("game");
+		}
 	}
 }
